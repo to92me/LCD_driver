@@ -1,0 +1,12 @@
+CFLAGS= -Wall -W
+LDFLAGS=-Wl,-elf2flt
+CC= /usr/local/bin/arm-elf-gcc
+RM=rm -f
+PROG=displ
+SRC= displ.c
+OBJ=$(SRC:%.c=%.o)
+$(PROG): $(OBJ)
+	$(CC) $(CFLAGS) -o $(PROG) $(OBJ) $(LDFLAGS)
+.PHONY: clean all dep
+clean:
+	$(RM) $(PROG) $(OBJ) *~ *.gdb .depend *.elf2flt *.elf
