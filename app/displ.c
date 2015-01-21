@@ -41,7 +41,7 @@ int main( int argc, char **argv){
     {"picture", no_argument, NULL, 'p'},
     {"help", no_argument, NULL, 'h'},
     {"plotline", required_argument, NULL, 'l'},
-    {"plotsquare", required_argument, NULL, 'k'},
+    {"plotsquare", required_argument, NULL, 'k'}, //TODO
     {"color", required_argument, NULL, 'b'},
     {"circle", required_argument, NULL, 'c'},
     {NULL, 0, NULL , 0}
@@ -123,6 +123,7 @@ int main( int argc, char **argv){
          * PLOT LINE
          * done
          */
+        printf("plot line \n");
         index_tmp = optind-1;
         while(index_tmp < argc){
             next = argv[index_tmp];
@@ -167,11 +168,42 @@ int main( int argc, char **argv){
 #ifdef LPC
         ret_val = ioctl(file_desc, krug, login_int);
         if (ret_val < 0){
-                printf("ioctl_set_string failed:%d\n", 0);
-                exit(-1);
+            printf("ioctl_set_string failed:%d\n", 0);
+            exit(-1);
         };
 #endif
 
+        break;
+    }
+    case 'b': {
+        /*
+      * COLOR
+      */
+        printf("set color for screen\n");
+        index_tmp = optind-1;
+        while(index_tmp < argc){
+            next = argv[index_tmp];
+            index_tmp++;
+            if(next[0] != '-'){
+                if (index_count < 2) {
+                    if ((atoi(next) > 15 )){
+                        printf("argument must be in range ( 0 , 15 )\n");
+                        abort() ;
+                    }
+                    login_int[index_count++] = atoi(next);
+                }
+            }
+            else break;
+        }
+        optind = index_tmp - 1;
+        printf("colors are: %d %d \n", login_int[0], login_int[1]);
+#ifdef LPC
+        ret_val = ioctl(file_desc, colour, login_int);
+        if (ret_val < 0){
+            printf("ioctl_set_string failed:%d\n", 0);
+            exit(-1);
+        };
+#endif
         break;
     }
     case -1:{
@@ -181,7 +213,7 @@ int main( int argc, char **argv){
         abort();
         break;
     }
-// ######################################################################################3
+    // ######################################################################################3
     //} while (next_option != -1);
 
     /*
@@ -225,5 +257,6 @@ int main( int argc, char **argv){
  * linija ok
  * string TODO
  * slika ok
+ * boja
  *
  */
