@@ -3,19 +3,19 @@
 #define _softverski_h
 #include <linux/cdev.h>
 
-#define   BLACK			0x0000		/*   0,   0,   0 */
+#define   BLACK			0x0000      /*   0,   0,   0 */
 #define   NAVY			0x000F      /*   0,   0, 128 */
-#define   DARK_GREEN	0x03E0      /*   0, 128,   0 */
+#define   DARK_GREEN	        0x03E0      /*   0, 128,   0 */
 #define   DARK_CYAN		0x03EF      /*   0, 128, 128 */
 #define   MAROON		0x7800      /* 128,   0,   0 */
 #define   PURPLE		0x780F      /* 128,   0, 128 */
 #define   OLIVE			0x7BE0      /* 128, 128,   0 */
-#define   LIGHT_GRAY	0xC618      /* 192, 192, 192 */
+#define   LIGHT_GRAY	        0xC618      /* 192, 192, 192 */
 #define   DARK_GRAY		0x7BEF      /* 128, 128, 128 */
 #define   BLUE			0x001F      /*   0,   0, 255 */
 #define   GREEN			0x07E0      /*   0, 255,   0 */
-#define   CYAN          0x07FF      /*   0, 255, 255 */
-#define   RED           0xF800      /* 255,   0,   0 */
+#define   CYAN                  0x07FF      /*   0, 255, 255 */
+#define   RED                   0xF800      /* 255,   0,   0 */
 #define   MAGENTA		0xF81F      /* 255,   0, 255 */
 #define   YELLOW		0xFFE0      /* 255, 255, 0   */
 #define   WHITE			0xFFFF      /* 255, 255, 255 */
@@ -74,10 +74,10 @@ void drawImage( int x, int y, unsigned short* image);
 
 //Nasa cdev struktura,u sustini je ne koristimo posto nemamo potrebe,ali bi mogla biti korisna za bafere izmedju user spaca i karnela
 struct displej_dev {
-	char * naredbe_data_p; /* Pointer to receive buffer */
-	unsigned long naredbe_size;         /* amount of data stored in receive buffer */
-	struct cdev cdev;	    /* Char device structure		*/
-           };
+    char * naredbe_data_p; /* Pointer to receive buffer */
+    unsigned long naredbe_size;         /* amount of data stored in receive buffer */
+    struct cdev cdev;	    /* Char device structure		*/
+};
 
 #endif /*  _softverski_h */
 
