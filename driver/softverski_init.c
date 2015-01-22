@@ -19,12 +19,12 @@ static unsigned char const  font_mask[8] = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 
 ******************************************************************************/
 void lcd_movePen(unsigned short x, unsigned short y)
 {
-
+  
     writeToReg(0x4e, x & 0xff);
     writeToReg(0x4f, y & 0x1ff);
-
-
-    return;
+  
+ 
+  return;
 }
 /******************************************************************************
 ** Function name:		lcd_point
@@ -37,18 +37,18 @@ void lcd_movePen(unsigned short x, unsigned short y)
 ******************************************************************************/
 void lcd_point(unsigned short x, unsigned short y, lcd_color_t color)
 {
-    if( x >= DISPLAY_WIDTH )
-    {
-        return;
-    }
-
-    if(y >= DISPLAY_HEIGHT)
-    {
-        return;
-    }
-    lcd_movePen(x, y);
-    writeToDisp(color);
-    return;
+  if( x >= DISPLAY_WIDTH )  
+  {
+	return;
+  }
+  
+  if(y >= DISPLAY_HEIGHT)
+  {
+	return;
+  }
+  lcd_movePen(x, y);
+  writeToDisp(color);
+  return;
 }
 
 /******************************************************************************
@@ -62,21 +62,21 @@ void lcd_point(unsigned short x, unsigned short y, lcd_color_t color)
 ******************************************************************************/
 void lcd_fillScreen(lcd_color_t color)
 {
-    unsigned short i = 0;
-    unsigned short j = 0;
+  unsigned short i = 0;
+  unsigned short j = 0;
 
+  
+ 
+  lcd_movePen(0, 0);
 
-
-    lcd_movePen(0, 0);
-
-    for(i=0; i < DISPLAY_HEIGHT; i++)
+  for(i=0; i < DISPLAY_HEIGHT; i++)
+  {
+    for(j=0; j < DISPLAY_WIDTH; j++)
     {
-        for(j=0; j<DISPLAY_WIDTH; j++)
-        {
-            writeToDisp(color);
-        }
+      writeToDisp(color);
     }
-    return;
+  }
+  return;
 }
 
 /******************************************************************************
@@ -91,42 +91,42 @@ void lcd_fillScreen(lcd_color_t color)
 ******************************************************************************/
 unsigned long lcd_putChar(unsigned short x, unsigned short y, unsigned char ch)
 {  
-    unsigned char data = 0;
-    unsigned char i = 0, j = 0;
+  unsigned char data = 0;
+  unsigned char i = 0, j = 0;
+  
+  lcd_color_t color = BLACK;
 
-    lcd_color_t color = BLACK;
+  if((x > (DISPLAY_WIDTH - 8)) || (y > (DISPLAY_HEIGHT - 8)) )
+  {
+	return( 1 );
+  }
 
-    if((x >= (DISPLAY_WIDTH - 8)) || (y >= (DISPLAY_HEIGHT - 8)) )
+  if( (ch < 0x20) || (ch > 0x7f) )
+  {
+	ch = 0x20;		/* unknown character will be set to blank */
+  }
+   
+  ch -= 0x20;
+  for(i=0; i<8; i++)
+  {
+    data = font5x7[ch][i];
+    for(j=0; j<6; j++)
     {
-        return( FALSE );
-    }
-
-    if( (ch < 0x20) || (ch > 0x7f) )
-    {
-        ch = 0x20;		/* unknown character will be set to blank */
-    }
-
-    ch -= 0x20;
-    for(i=0; i<8; i++)
-    {
-        data = font5x7[ch][i];
-        for(j=0; j<6; j++)
-        {
-            if( (data&font_mask[j])==0 )
-            {
-                color = backgroundColor;
-            }
-            else
-            {
-                color = foregroundColor;
-            }
-            lcd_point(x, y, color);
-            x++;
-        }
-        y++;
-        x -= 6;
-    }
-    return( TRUE );
+	    if( (data&font_mask[j])==0 )
+	    {  
+		    color = backgroundColor;
+	    }
+	    else
+	    {
+		    color = foregroundColor;
+	    }
+	    lcd_point(x, y, color);       
+	    x++;
+    }   
+    y++;
+    x -= 6;
+  }
+  return( 0 );
 }
 
 /******************************************************************************
@@ -141,9 +141,9 @@ unsigned long lcd_putChar(unsigned short x, unsigned short y, unsigned char ch)
 
 void lcd_fontColor(lcd_color_t foreground, lcd_color_t background)
 {
-    foregroundColor = foreground;
-    backgroundColor = background;
-    return;
+  foregroundColor = foreground;
+  backgroundColor = background;
+  return;
 }
 
 

@@ -12,7 +12,7 @@
 
 
 #define BACKLIGHT_PIN 0x10000000  //P3.28
-
+
 extern void 	      arm_lcd_init( void );
 extern unsigned int   lcd_init(void);
 extern void           writeToDisp(unsigned short data);

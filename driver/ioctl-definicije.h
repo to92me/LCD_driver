@@ -13,13 +13,23 @@
  * registration any more, because ioctls need to know
  * it.
  */
-#define display_MAJOR 241
+#define displej_MAJOR 241
 /*
  * Set the message of the device driver
  */
-#define funkcije _IOR(display_MAJOR, 0, signed char *)//IOR-za citanje iz user space
-#define slika _IOR(display_MAJOR, 1, unsigned short *)//IOR-za citanje iz user space
-#define string _IOR(display_MAJOR, 2 signed char*)// za pisanje po ekranu
+/*
+#define funkcije _IOR(displej_MAJOR, 0, signed char *)//IOR-za citanje iz user space
+#define slika _IOR(displej_MAJOR, 1, unsigned short *)//IOR-za citanje iz user space
+#define string_io _IOR(displej_MAJOR, 2, unsigned short *)
+*/
+
+#define print _IOR(displej_MAJOR, 0,char *) //maybe void 
+#define linija _IOR(displej_MAJOR, 1, char*)
+#define krug _IOR(displej_MAJOR, 2, char*)
+#define colour _IOR(displej_MAJOR, 3, char* )
+#define fillscreen _IOR(displej_MAJOR, 4,char* )
+#define trougao _IOR(displej_MAJOR, 5, char* )
+#define kocka _IOR(displej_MAJOR, 7,char* )
 
 /*
  * _IOR means that we're creating an ioctl command
@@ -38,7 +48,7 @@
 /*
  * Get the message of the device driver
  */
-#define naredba2 _IOW(display_MAJOR, 1, char *)
+#define naredba2 _IOW(displej_MAJOR, 1, char *)
 /*
  * This IOCTL is used for output, to get the message
  * of the device driver. However, we still need the
@@ -48,7 +58,7 @@
 /*
  * Get the n'th byte of the message
  */
-#define IOCTL_GET_NTH_BYTE _IOWR(display_MAJOR, 2, int)
+#define IOCTL_GET_NTH_BYTE _IOWR(displej_MAJOR, 2, int)
 /*
  * The IOCTL is used for both input and output. It
  * receives from the user a number, n, and returns
@@ -57,6 +67,6 @@
 /*
  * The name of the device file
  */
-#define DEVICE_FILE_NAME "display"
+#define DEVICE_FILE_NAME "displej"
 #endif
 
